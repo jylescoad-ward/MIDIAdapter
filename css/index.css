@@ -1,0 +1,29 @@
+@import "scale.css";
+@import "colorScheme/index.css";
+@import "Visualizer.css";
+@import "LaunchpadMK2.css";
+
+
+fieldset {
+	width: fit-content;
+}
+table,
+table tbody,
+table thead,
+table tbody tr,
+table thead tr,
+table tbody tr td,
+table thead tr th {
+	border: 1px solid gray;
+}
+
+p{
+	margin: 2px;
+}
+.EventStart td,
+.EventStart th {
+	border-top: 2px solid black;
+}
+tr.EventStart {
+	margin-top: 15px;
+}

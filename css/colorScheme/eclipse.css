@@ -1,0 +1,4 @@
+body {
+	background-color: var(--PAL_GRAY-500);
+	color: var(--PAL_GRAY-900);
+}

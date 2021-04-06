@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+	<head>
+		<title>MIDI Adapter</title>
+		<link href="./../css/index.css" type="text/css" rel="stylesheet" />
+	</head>
+	<body>
+		<fieldset>
+			<legend>Management</legend>
+			<button action="disconnect">Disconnect</button>
+			<button action="connect">Connect</button>
+			<fieldset>
+				<legend>OBS</legend>
+				<label>Websocket IP</label>
+				<input type="text" use="ManagementOBSAddress" placeholder="Default: 127.0.0.1:4444"><br>
+				<label>Password</label>
+				<input type="text" use="ManagementOBSPassword" placeholder=""><br>
+				<div use="ManagementOBSStatus">
+					Status: <span use="ManagementOBSStatusConnection">Disconnected</span>
+				</div>
+			</fieldset>
+		</fieldset>
+
+		<fieldset style="width: fit-content;">
+			<legend>Add Event</legend>
+			<fieldset>
+				<legend>Input</legend>
+				<fieldset>
+					<legend><input type="checkbox" use="MIDIInputEventEnable" checked>MIDI</legend>
+					<p>Fires MIDI Output <strong>and</strong> OBS Output</p>
+					<input action="MIDIInputEventNote" type="number" placeholder="Note" min="0" max="127">
+					<input action="MIDIInputEventVelocity" type="number" placeholder="Velocity" min="0" max="127" value="63" />
+					<input action="MIDIInputEventChannel" type="number" placeholder="Channel" min="0" max="15" value="0">
+					<select action="MIDIInputControllers">
+						<option default disabled selected>-- Input Controller --</option>
+					</select>
+					<select action="MIDIInputEventType">
+						<option default selected value="noteon">Press (noteon)</option>
+						<option value="noteoff">Release (noteoff)</option>
+					</select>
+				</fieldset>
+				<fieldset>
+					<legend><input type="checkbox" use="OBSInputEventEnable">OBS</legend>
+					<p><strong>Only</strong> Fires MIDI Output</p>
+					<select action="OBSInputEventAction">
+						<option default disabled selected>Event</option>
+					</select>
+					<select action="OBSInputEventData">
+						<option default disabled selected>Data</option>
+					</select>
+				</fieldset>
+			</fieldset>
+			<fieldset>
+				<legend>Output</legend>
+				<fieldset style="width: fit-content;">
+					<legend><input type="checkbox" use="MIDIOutputEventEnable" checked> MIDI</legend>
+					<p>Listens for MIDI Input <strong>or</strong> OBS Input</p>
+					<input action="MIDIOutputEventNote" type="number" placeholder="Note" min="0" max="127" />
+					<input action="MIDIOutputEventVelocity" type="number" placeholder="Velocity" min="0" max="127" value="127" />
+					<input action="MIDIOutputEventChannel" type="number" placeholder="Channel" min="0" max="15" value="0"/>
+					<select action="MIDIOutputControllers">
+						<option default disabled selected>-- Output Controller --</option>
+					</select>
+					<select action="MIDIOutputEventType">
+						<option value="noteon">Press (noteon)</option>
+						<option default selected value="noteoff">Release (noteoff)</option>
+					</select>
+				</fieldset>
+				<fieldset>
+					<legend><input type="checkbox" use="OBSOutputEventEnable" checked> OBS</legend>
+					<p>Listens for MIDI Input</p>
+					<select action="OBSOutputEventAction">
+						<option default disabled selected>Action</option>
+						<optgroup label="Scene">
+							<option value="SetCurrentScene">Switch to Scene</option>
+							<option value="SetPreviewScene">Preview Scene</option>
+							<option value="TransitionToProgram">Transition Preview to Main</option>
+						</optgroup>
+						<optgroup label="Source">
+							<option value="SetSourceVisibility=false">Hide Source</option>
+							<option value="SetSourceVisibility=true">Show Source</option>
+							<option value="SetSourceVisibility=toggle">Toggle Source</option>
+						</optgroup>
+						<optgroup label="Audio">
+							<option value="SetMute=true">Mute</optio>
+							<option value="SetMute=false">Un-mute</optio>
+							<option value="ToggleMute">Toggle Mute</optio>
+						</optgroup>
+						<optgroup label="Recording">
+							<option value="StartRecording">Start Recording</option>
+							<option value="StopRecording">Stop Recording</option>
+							<option value="PauseRecording">Pause Recording</option>
+							<option value="ResumeRecording">Resume Recording</option>
+						</optgroup>
+						<optgroup label="Streaming">
+							<option value="StartStreaming">Start Streaming</option>
+							<option value="StopStreaming">Stop Streaming</option>
+							<option value="PauseStreaming">Pause Streaming</option>
+							<option value="ResumeStreaming">Resume Streaming</option>
+						</optgroup>
+					</select>
+					<!-- Scene/Source will live here. -->
+					<select action="OBSOutputEventObject">
+						<option default disabled selected>Object</option>
+					</select>
+					<!-- Filter/Transition lives here. Gets hidden when not needed -->
+					<select action="OBSOutputEventData">
+						<option default disabled selected>Data</option>
+					</select>
+				</fieldset>
+			</fieldset>
+			<br>
+			<button action="AppendEvent">Append</button>
+		</fieldset>
+		<br>
+		<br>
+		<fieldset>
+			<legend>Event List</legend>
+			<table use="GlobalEventList">
+				<thead>
+					<tr>
+						<th>Input</th>
+						<td>Event</td>
+						<td>Data</td>
+						<th>Output</th>
+						<td>Event</td>
+						<td>Data</td>
+						<td></td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>MIDI</td>
+						<td colspan="2">Ready/Release<br>2- Launchpad MK2 0</td>
+						<td>MIDI</td>
+						<td>2- Launchpad MK2 1</td>
+						<td>N: 11, V: 3, C: 0</td>
+						<td rowspan="3"><button UUID="AAAA">Delete</button></td>
+					</tr>
+					<tr>
+						<td rowspan="2">MIDI</td>
+						<td rowspan="2">Press<br>2- Launchpad MK2 0</td>
+						<td rowspan="2">N: 11<br>C: 0</td>
+						<td>MIDI</td>
+						<td>2- Launchpad MK2 1</td>
+						<td>N: 11, V: 4, C: 0</td>
+					</tr>
+					<tr>
+						<td>OBS</td>
+						<td colspan="2">StartStreaming</td>
+					</tr>
+				</tbody>
+			</table>
+		</fieldset>
+		<fieldset style="display: none;">
+			<legend>Events</legend>
+			<fieldset>
+				<legend>MIDI I/O</legend>
+				<table>
+					<thead>
+						<tr>
+							<th></th>
+							<th>Input Event</th>
+							<th>Input Event Data</th>
+							<th>Output Event</th>
+							<th>Output Event Data</th>
+						</tr>
+					</thead>
+					<tbody use="MIDI_IO_EventList">
+	
+					</tbody>
+				</table>
+			</fieldset>
+		</fieldset>
+		<button type="button" class="collapsible" action="CollapseVisualizer">Debugger</button>
+		<div class="VisualController content">
+
+		</div>
+		<script type="text/javascript">require("./index.js")();</script>
+	</body>
+</html>
