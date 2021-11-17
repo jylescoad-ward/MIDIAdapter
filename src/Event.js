@@ -21,6 +21,8 @@ module.exports = () => {
 }
 module.exports.updateList = {
 	MIDI: () => {
+		if (localStorage.MIDIColor == undefined)
+			localStorage.MIDIColor = "[]";
 		var ColorConfig = JSON.parse(localStorage.MIDIColor) || [];
 		$("tbody[use=MIDI_IO_EventList]").html("<!-- -->");
 		ColorConfig.forEach((IDevice)=>{
