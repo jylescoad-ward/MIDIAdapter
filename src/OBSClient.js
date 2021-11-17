@@ -34,7 +34,7 @@ class OBSEvent {
 					<td>MIDI</td>
 					<td>${EObject.then.midi.controller}</td>
 					<td>N: ${EObject.on.midi.note}, V: ${EObject.on.midi.velocity}, C: ${EObject.on.midi.channel}</td>
-					<td rowspan="3"><button action="DeleteEvent" UUID="${EObject.UUID}">Delete</button></td>
+					<td rowspan="${(() => {let index = 0;if(EObject.on.doMIDI){index++}; if(EObject.on.doOBS){index++}; if(EObject.then.doMIDI){index++}; if(EObject.then.doOBS){index++}; return index})()}"><button action="DeleteEvent" UUID="${EObject.UUID}">Delete</button></td>
 				</tr>
 				`)
 				if (EObject.then.doMIDI) {
