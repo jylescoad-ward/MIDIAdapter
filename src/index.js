@@ -53,3 +53,32 @@ module.exports.collapse = () => {
 		});
 	}
 }
+
+const {getCurrentWindow, globalShortcut} = require('electron').remote;
+const {dialog} = require('electron').remote;
+const fs = require("fs");
+$("button[action=import]").on("click",async () =>
+{
+	var location = await dialog.showOpenDialog({
+		filters: [{name:"MIDI Adapter Config", extensions:["mcfg"]}],
+		properties: ['openFile'],
+		buttonLabel: "Import",
+	});
+	console.log(location);
+	if (!location.canceled)
+	{
+		var data = fs.readFileSync(location.filePaths[0]);
+		localStorage = JSON.parse(data.toString());
+		getCurrentWindow().reload()
+	}
+});
+$("button[action=export]").on("click",async () =>
+{
+	var location = await dialog.showSaveDialog({
+		filters: [{name:"MIDI Adapter Config", extensions:["mcfg"]}],
+		buttonLabel: "Export",
+	});
+	console.log(location)
+	if (!location.canceled)
+		fs.writeFile(location.filePath, JSON.stringify(localStorage,null,"\t"),console.log);
+});
