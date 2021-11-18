@@ -4,6 +4,7 @@
     "version": "0.0.4",
     "description": "MIDI Adapter, Designed for osu!lazer",
     "main": "src/electron.js",
+	"author": "Jyles Coad-Ward <jyles@dariox.club> (https://jyles.club)",
     "scripts": {
         "start": "electron-forge start",
         "package": "electron-forge package",

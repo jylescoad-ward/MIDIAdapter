@@ -7,6 +7,7 @@
 fieldset {
 	width: fit-content;
 }
+/*
 table,
 table tbody,
 table thead,
@@ -15,7 +16,7 @@ table thead tr,
 table tbody tr td,
 table thead tr th {
 	border: 1px solid gray;
-}
+}*/
 
 p{
 	margin: 2px;
@@ -26,4 +27,7 @@ p{
 }
 tr.EventStart {
 	margin-top: 15px;
+}
+.container{
+	padding: 15px;
 }

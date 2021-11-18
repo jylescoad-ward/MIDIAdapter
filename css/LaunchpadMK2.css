@@ -16,7 +16,7 @@ table.LaunchpadMK2.Controller {
 table.LaunchpadMK2.Controller tbody tr td.btn {
 	width: calc(var(--SCALE) * 20);
 	height: calc(var(--SCALE) * 20);
-	margin: calc(var(--SCALE) * 5);
+	margin: calc(var(--SCALE) * 3);
 
 	border-radius: calc(var(--SCALE) * 3);
 
@@ -26,8 +26,8 @@ table.LaunchpadMK2.Controller tbody tr td.btn {
 }
 table.LaunchpadMK2.Controller tbody tr td.btn.round {
 	border-radius: calc(var(--SCALE) * 16);
-	width: calc(var(--SCALE) * 16);
-	height: calc(var(--SCALE) * 16);
+	width: calc(var(--SCALE) * 20);
+	height: calc(var(--SCALE) * 20);
 	padding: calc(var(--SCALE) * 2);
 	background-color: black;
 	color: white;

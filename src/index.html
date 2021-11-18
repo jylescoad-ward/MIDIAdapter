@@ -2,179 +2,262 @@
 	<head>
 		<title>MIDI Adapter</title>
 		<link href="./../css/index.css" type="text/css" rel="stylesheet" />
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
 	</head>
 	<body>
-		<fieldset>
-			<legend>Management</legend>
-			<button action="disconnect">Disconnect</button>
-			<button action="connect">Connect</button>
-			<button action="import">Import</button>
-			<button action="export">Export</button>
-			<fieldset>
-				<legend>OBS</legend>
-				<label>Websocket IP</label>
-				<input type="text" use="ManagementOBSAddress" placeholder="Default: 127.0.0.1:4444"><br>
-				<label>Password</label>
-				<input type="text" use="ManagementOBSPassword" placeholder=""><br>
-				<div use="ManagementOBSStatus">
-					Status: <span use="ManagementOBSStatusConnection">Disconnected</span>
-				</div>
-			</fieldset>
-		</fieldset>
-
-		<fieldset style="width: fit-content;">
-			<legend>Add Event</legend>
-			<fieldset>
-				<legend>Input</legend>
-				<fieldset>
-					<legend><input type="checkbox" use="MIDIInputEventEnable" checked>MIDI</legend>
-					<p>Fires MIDI Output <strong>and</strong> OBS Output</p>
-					<input action="MIDIInputEventNote" type="number" placeholder="Note" min="0" max="127">
-					<input action="MIDIInputEventVelocity" type="number" placeholder="Velocity" min="0" max="127" value="63" />
-					<input action="MIDIInputEventChannel" type="number" placeholder="Channel" min="0" max="15" value="0">
-					<select action="MIDIInputControllers">
-						<option default disabled selected>-- Input Controller --</option>
-					</select>
-					<select action="MIDIInputEventType">
-						<option default selected value="noteon">Press (noteon)</option>
-						<option value="noteoff">Release (noteoff)</option>
-					</select>
-				</fieldset>
-				<fieldset>
-					<legend><input type="checkbox" use="OBSInputEventEnable">OBS</legend>
-					<p><strong>Only</strong> Fires MIDI Output</p>
-					<select action="OBSInputEventAction">
-						<option default disabled selected>Event</option>
-					</select>
-					<select action="OBSInputEventData">
-						<option default disabled selected>Data</option>
-					</select>
-				</fieldset>
-			</fieldset>
-			<fieldset>
-				<legend>Output</legend>
-				<fieldset style="width: fit-content;">
-					<legend><input type="checkbox" use="MIDIOutputEventEnable" checked> MIDI</legend>
-					<p>Listens for MIDI Input <strong>or</strong> OBS Input</p>
-					<input action="MIDIOutputEventNote" type="number" placeholder="Note" min="0" max="127" />
-					<input action="MIDIOutputEventVelocity" type="number" placeholder="Velocity" min="0" max="127" value="127" />
-					<input action="MIDIOutputEventChannel" type="number" placeholder="Channel" min="0" max="15" value="0"/>
-					<select action="MIDIOutputControllers">
-						<option default disabled selected>-- Output Controller --</option>
-					</select>
-					<select action="MIDIOutputEventType">
-						<option value="noteon">Press (noteon)</option>
-						<option default selected value="noteoff">Release (noteoff)</option>
-					</select>
-				</fieldset>
-				<fieldset>
-					<legend><input type="checkbox" use="OBSOutputEventEnable" checked> OBS</legend>
-					<p>Listens for MIDI Input</p>
-					<select action="OBSOutputEventAction">
-						<option default disabled selected>Action</option>
-						<optgroup label="Scene">
-							<option value="SetCurrentScene">Switch to Scene</option>
-							<option value="SetPreviewScene">Preview Scene</option>
-							<option value="TransitionToProgram">Transition Preview to Main</option>
-						</optgroup>
-						<optgroup label="Source">
-							<option value="SetSourceVisibility=false">Hide Source</option>
-							<option value="SetSourceVisibility=true">Show Source</option>
-							<option value="SetSourceVisibility=toggle">Toggle Source</option>
-						</optgroup>
-						<optgroup label="Audio">
-							<option value="SetMute=true">Mute</optio>
-							<option value="SetMute=false">Un-mute</optio>
-							<option value="ToggleMute">Toggle Mute</optio>
-						</optgroup>
-						<optgroup label="Recording">
-							<option value="StartRecording">Start Recording</option>
-							<option value="StopRecording">Stop Recording</option>
-							<option value="PauseRecording">Pause Recording</option>
-							<option value="ResumeRecording">Resume Recording</option>
-						</optgroup>
-						<optgroup label="Streaming">
-							<option value="StartStreaming">Start Streaming</option>
-							<option value="StopStreaming">Stop Streaming</option>
-							<option value="PauseStreaming">Pause Streaming</option>
-							<option value="ResumeStreaming">Resume Streaming</option>
-						</optgroup>
-					</select>
-					<!-- Scene/Source will live here. -->
-					<select action="OBSOutputEventObject">
-						<option default disabled selected>Object</option>
-					</select>
-					<!-- Filter/Transition lives here. Gets hidden when not needed -->
-					<select action="OBSOutputEventData">
-						<option default disabled selected>Data</option>
-					</select>
-				</fieldset>
-			</fieldset>
+		<div class="container">
 			<br>
-			<button action="AppendEvent">Append</button>
-		</fieldset>
-		<br>
-		<br>
-		<fieldset>
-			<legend>Event List</legend>
-			<table use="GlobalEventList">
-				<thead>
-					<tr>
-						<th>Input</th>
-						<td>Event</td>
-						<td>Data</td>
-						<th>Output</th>
-						<td>Event</td>
-						<td>Data</td>
-						<td></td>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>MIDI</td>
-						<td colspan="2">Ready/Release<br>2- Launchpad MK2 0</td>
-						<td>MIDI</td>
-						<td>2- Launchpad MK2 1</td>
-						<td>N: 11, V: 3, C: 0</td>
-						<td rowspan="3"><button UUID="AAAA">Delete</button></td>
-					</tr>
-					<tr>
-						<td rowspan="2">MIDI</td>
-						<td rowspan="2">Press<br>2- Launchpad MK2 0</td>
-						<td rowspan="2">N: 11<br>C: 0</td>
-						<td>MIDI</td>
-						<td>2- Launchpad MK2 1</td>
-						<td>N: 11, V: 4, C: 0</td>
-					</tr>
-					<tr>
-						<td>OBS</td>
-						<td colspan="2">StartStreaming</td>
-					</tr>
-				</tbody>
-			</table>
-		</fieldset>
-		<fieldset style="display: none;">
-			<legend>Events</legend>
-			<fieldset>
-				<legend>MIDI I/O</legend>
-				<table>
+			<div class="container shadow-sm rounded">
+				<div class="row">
+					<h3>Management</h3>
+				</div>
+				<div class="row text-center">
+					<div class="col">
+						<button class="btn btn-primary" action="disconnect">Disconnect</button>
+					</div>
+					<div class="col">
+						<button class="btn btn-primary" action="connect">Connect</button>
+					</div>
+					<div class="col">
+						<button class="btn btn-primary" action="import">Import</button>
+					</div>
+					<div class="col">
+						<button class="btn btn-primary" action="export">Export</button>
+					</div>
+				</div>
+				<div class="row">
+					<div class="container">
+						<div class="row">
+							<h4>OBS</h4>
+						</div>
+						<div class="row">
+							<div class="col">
+								<span>Websocket Address</span>
+							</div>
+							<div class="col">
+								<input type="text" use="ManagementOBSAddress" placeholder="Default: 127.0.0.1:4444">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<span>Password</span>
+							</div>
+							<div class="col">
+								<input type="password" use="ManagementOBSPassword" placeholder="">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div use="ManagementOBSStatus">
+									Status: <span use="ManagementOBSStatusConnection">Disconnected</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+	
+			<hr>
+
+			<div class="container shadow-sm rounded">
+				<h4>Create Event</h4>
+				<div class="row">
+					<div class="col-6">
+						<div class="card">
+							<h5 class="card-header">
+								<input type="checkbox" use="MIDIInputEventEnable" checked> Input - MIDI
+							</h5>
+							<div class="card-body">
+								<div class="mb-3">
+									<label for="MIDIInputEventNote" class="form-label">Note</label>
+									<input action="MIDIInputEventNote" id="MIDIInputEventNote" class="form-control" type="number" min="0" max="127" />
+								</div>
+								<div class="mb-3">
+									<label for="MIDIInputEventVelocity" class="form-label">Velocity</label>
+									<input action="MIDIInputEventVelocity" id="MIDIInputEventVelocity" class="form-control" type="number" placeholder="Velocity" min="0" max="127" value="127" />
+								</div>
+								<div class="mb-3">
+									<label for="MIDIInputEventChannel" class="form-label">Channel</label>
+									<input action="MIDIInputEventChannel" id="MIDIInputEventChannel" class="form-control" type="number" placeholder="Channel" min="0" max="15" value="0"/>
+								</div>
+								<div class="mb-3">
+									<label for="MIDIInputControllers" class="form-label">Device</label>
+									<select action="MIDIInputControllers" id="MIDIInputControllers" class="form-control">
+										<option default disabled selected>-- Input Controller --</option>
+									</select>
+								</div>
+								<div class="mb-3">
+									<label for="MIDIInputEventType" class="form-label">Type</label>
+									<select action="MIDIInputEventType" id="MIDIInputEventType" class="form-control">
+										<option value="noteon">Press (noteon)</option>
+										<option default selected value="noteoff">Release (noteoff)</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-6">
+						<div class="card">
+							<h5 class="card-header">
+								<input type="checkbox" use="OBSInputEventEnable"> Input - OBS
+							</h5>
+							<div class="card-body">
+								<div class="mb-3">
+									<label for="OBSInputEventAction" class="form-label">Event</label>
+									<select action="OBSInputEventAction" id="OBSInputEventAction" class="form-control">
+										<option default disabled selected>Event</option>
+									</select>
+								</div>
+								<div class="mb-3">
+									<label for="OBSInputEventData" class="form-label">Data</label>
+									<select action="OBSInputEventData" id="OBSInputEventData" class="form-control">
+										<option default disabled selected>Data</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row-1"><div class="col"><span style="color: rgba(0,0,0,0);">.</span></div></div>
+				<div class="row">
+					<div class="col-6">
+						<div class="card">
+							<h5 class="card-header">
+								<input type="checkbox" use="MIDIOutputEventEnable" checked> Output - MIDI
+							</h5>
+							<div class="card-body">
+								<div class="mb-3">
+									<label for="MIDIOutputEventNote" class="form-label">Note</label>
+									<input action="MIDIOutputEventNote" id="MIDIOutputEventNote" class="form-control" type="number" min="0" max="127" />
+								</div>
+								<div class="mb-3">
+									<label for="MIDIOutputEventVelocity" class="form-label">Velocity</label>
+									<input action="MIDIOutputEventVelocity" id="MIDIOutputEventVelocity" class="form-control" type="number" placeholder="Velocity" min="0" max="127" value="127" />
+								</div>
+								<div class="mb-3">
+									<label for="MIDIOutputEventChannel" class="form-label">Channel</label>
+									<input action="MIDIOutputEventChannel" id="MIDIOutputEventChannel" class="form-control" type="number" placeholder="Channel" min="0" max="15" value="0"/>
+								</div>
+								<div class="mb-3">
+									<label for="MIDIOutputControllers" class="form-label">Device</label>
+									<select action="MIDIOutputControllers" id="MIDIOutputControllers" class="form-control">
+										<option default disabled selected>-- Output Controller --</option>
+									</select>
+								</div>
+								<div class="mb-3">
+									<label for="MIDIOutputEventType" class="form-label">Type</label>
+									<select action="MIDIOutputEventType" id="MIDIOutputEventType" class="form-control">
+										<option value="noteon">Press (noteon)</option>
+										<option default selected value="noteoff">Release (noteoff)</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-6">
+						<div class="card">
+							<h5 class="card-header">
+								<input type="checkbox" use="OBSOutputEventEnable" checked> Output - OBS
+							</h5>
+							<div class="card-body">
+								<div class="mb-3">
+									<label for="OBSOutputEventAction" class="form-label">Event</label>
+									<select class="form-control" action="OBSOutputEventAction" id="OBSOutputEventAction">
+										<option default disabled selected>None</option>
+										<optgroup label="Scene">
+											<option value="SetCurrentScene">Switch to Scene</option>
+											<option value="SetPreviewScene">Preview Scene</option>
+											<option value="TransitionToProgram">Transition Preview to Main</option>
+										</optgroup>
+										<optgroup label="Source">
+											<option value="SetSourceVisibility=false">Hide Source</option>
+											<option value="SetSourceVisibility=true">Show Source</option>
+											<option value="SetSourceVisibility=toggle">Toggle Source</option>
+										</optgroup>
+										<optgroup label="Audio">
+											<option value="SetMute=true">Mute</optio>
+											<option value="SetMute=false">Un-mute</optio>
+											<option value="ToggleMute">Toggle Mute</optio>
+										</optgroup>
+										<optgroup label="Recording">
+											<option value="StartRecording">Start Recording</option>
+											<option value="StopRecording">Stop Recording</option>
+											<option value="PauseRecording">Pause Recording</option>
+											<option value="ResumeRecording">Resume Recording</option>
+										</optgroup>
+										<optgroup label="Streaming">
+											<option value="StartStreaming">Start Streaming</option>
+											<option value="StopStreaming">Stop Streaming</option>
+											<option value="PauseStreaming">Pause Streaming</option>
+											<option value="ResumeStreaming">Resume Streaming</option>
+										</optgroup>
+									</select>
+								</div>
+								<div class="mb-3">
+									<label for="OBSOutputEventObject" class="form-label">Object</label>
+									<select action="OBSOutputEventObject" id="OBSOutputEventObject" class="form-control">
+										<option default disabled selected>None</option>
+									</select>
+								</div>
+								<div class="mb-3">
+									
+									<label for="OBSOutputEventData" class="form-label">Data</label>
+									<select action="OBSOutputEventData" id="OBSOutputEventData" class="form-control">
+										<option default disabled selected>None</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<br>
+			<br>
+			<div class="container shadow-sm rounded">
+				<h4>Events</h4>
+				<table class="table" use="GlobalEventList">
 					<thead>
 						<tr>
-							<th></th>
-							<th>Input Event</th>
-							<th>Input Event Data</th>
-							<th>Output Event</th>
-							<th>Output Event Data</th>
+							<th>Input</th>
+							<td>Event</td>
+							<td>Data</td>
+							<th>Output</th>
+							<td>Event</td>
+							<td>Data</td>
+							<td></td>
 						</tr>
 					</thead>
-					<tbody use="MIDI_IO_EventList">
-	
+					<tbody>
+
 					</tbody>
 				</table>
+			</div>
+			
+			<fieldset style="display: none;">
+				<legend>Events</legend>
+				<fieldset>
+					<legend>MIDI I/O</legend>
+					<table>
+						<thead>
+							<tr>
+								<th></th>
+								<th>Input Event</th>
+								<th>Input Event Data</th>
+								<th>Output Event</th>
+								<th>Output Event Data</th>
+							</tr>
+						</thead>
+						<tbody use="MIDI_IO_EventList">
+		
+						</tbody>
+					</table>
+				</fieldset>
 			</fieldset>
-		</fieldset>
-		<button type="button" class="collapsible" action="CollapseVisualizer">Debugger</button>
-		<div class="VisualController content">
+			<button type="button" class="collapsible" action="CollapseVisualizer">Debugger</button>
+			<div class="VisualController content">
+	
+			</div>
 
 		</div>
 		<script type="text/javascript">require("./index.js")();</script>
