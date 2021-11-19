@@ -348,8 +348,12 @@ class OBSEvent {
 			console.error('socket error:', err);
 		});
 
-		this.OBS.connect(this.Credentials).catch((error)=>{
-			alert(error.description +"\nTry checking if OBS is open.")
+		$(".loadingoverlay").attr("action","show");
+		this.OBS.connect(this.Credentials).then(() =>{
+			$(".loadingoverlay").attr("action","hide");
+		}).catch((error)=>{
+			alert(error.description +"\nTry checking if OBS is open.");
+			$(".loadingoverlay").attr("action","hide");
 		})
 	}
 	disconnect() {
