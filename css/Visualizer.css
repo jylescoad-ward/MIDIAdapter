@@ -1,4 +1,5 @@
-.collapsible {
+button.collapsible,
+input.collapsible {
 	margin-top: 20px;
 
 	background-color: #777;
@@ -12,12 +13,15 @@
 	width: calc(var(--SCALE) * 300);
 }
 
-.active, .collapsible:hover {
+button.collapsible.active, 
+input.collapsible.active, 
+button.collapsible:hover,
+input.collapsible:hover {
 	background-color: #555;
 	border-color: #555;
 }
 
-.content {
+.collapsible.content {
 	padding: 6px 6px;
 	display: none;
 	overflow: hidden;
