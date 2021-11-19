@@ -18,6 +18,7 @@ const createWindow = () => {
 		minWidth: 1280,
 		minHeight: 900,
 		allowRendererProcessReuse: false,
+		autoHideMenuBar: true,
 		webPreferences: {
 			nodeIntegration: true,
 			enableRemoteModule: true,
@@ -25,11 +26,10 @@ const createWindow = () => {
 			allowRendererProcessReuse: false,
 		},
 	});
-	mainWindow.setMenu(null);
 	mainWindow.loadURL(`file://${__dirname}/index.html`);
-	if (!isStandalone()) {
+	//if (!isStandalone()) {
 		mainWindow.webContents.openDevTools();
-	}
+	//}
 	mainWindow.on('closed', () => {
 		mainWindow = null;
 	});

@@ -85,8 +85,8 @@ $("button[action=export]").on("click",async () =>
 
 var allPackages = [];
 var devpackages = [];
-Object.entries(require("./../package.json").dependencies).forEach(d => allPackages.push({name:d[0].replace("@",""),version:d[1]}));
-Object.entries(require("./../package.json").devDependencies).forEach(d => devpackages.push({name:d[0].replace("@",""),version:d[1]}));
+Object.entries(require("./../package.json").dependencies || {}).forEach(d => allPackages.push({name:d[0].replace("@",""),version:d[1]}));
+Object.entries(require("./../package.json").devDependencies || {}).forEach(d => devpackages.push({name:d[0].replace("@",""),version:d[1]}));
 console.log(allPackages,devpackages)
 allPackages.forEach((package) => {
 	$("[action=OSS_Credits]>ul").append(`
