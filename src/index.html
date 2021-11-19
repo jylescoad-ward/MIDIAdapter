@@ -1,220 +1,290 @@
 <!DOCTYPE html>
 	<head>
 		<title>MIDI Adapter</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link href="./../css/index.css" type="text/css" rel="stylesheet" />
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
 	</head>
 	<body>
+		<div class="loadingoverlay">
+			<div class="d-flex">
+				<div class="spinner-border" role="status">
+					<span class="visually-hidden">Loading...</span>
+				</div>
+			</div>
+		</div>
+		<!-- Create Event Modal-->
+		<div class="modal fade shadow-sm" id="createEventModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="createEventModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-xl">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="createEventModalLabel">Create Event</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body container">
+						<ul class="nav nav-tabs" id="createEventTabButtons" role="createEventTab">
+							<li class="nav-item" role="presentation">
+								<button class="nav-link active" id="input-tab" data-bs-toggle="tab" data-bs-target="#input" type="button" role="tab" aria-controls="input" aria-selected="true">Input</button>
+							</li>
+							<li class="nav-item" role="presentation">
+								<button class="nav-link" id="output-tab" data-bs-toggle="tab" data-bs-target="#output" type="button" role="tab" aria-controls="output" aria-selected="false">Output</button>
+							</li>
+						</ul>
+						<div class="tab-content container" id="createEventTab">
+							<div class="tab-pane show active" id="input" role="createEventTab" aria-labelledby="input-tab">
+								<div class="row">
+									<div class="col">
+										<div class="card">
+											<h5 class="card-header">
+												<input type="checkbox" use="MIDIInputEventEnable" checked> MIDI
+											</h5>
+											<div class="card-body">
+												<div class="mb-3">
+													<label for="MIDIInputEventNote" class="form-label">Note</label>
+													<input action="MIDIInputEventNote" id="MIDIInputEventNote" class="form-control" type="number" min="0" max="127" />
+												</div>
+												<div class="mb-3">
+													<label for="MIDIInputEventVelocity" class="form-label">Velocity</label>
+													<input action="MIDIInputEventVelocity" id="MIDIInputEventVelocity" class="form-control" type="number" placeholder="Velocity" min="0" max="127" value="127" />
+												</div>
+												<div class="mb-3">
+													<label for="MIDIInputEventChannel" class="form-label">Channel</label>
+													<input action="MIDIInputEventChannel" id="MIDIInputEventChannel" class="form-control" type="number" placeholder="Channel" min="0" max="15" value="0"/>
+												</div>
+												<div class="mb-3">
+													<label for="MIDIInputControllers" class="form-label">Device</label>
+													<select action="MIDIInputControllers" id="MIDIInputControllers" class="form-control">
+														<option default disabled selected>-- Input Controller --</option>
+													</select>
+												</div>
+												<div class="mb-3">
+													<label for="MIDIInputEventType" class="form-label">Type</label>
+													<select action="MIDIInputEventType" id="MIDIInputEventType" class="form-control">
+														<option value="noteon">Press (noteon)</option>
+														<option default selected value="noteoff">Release (noteoff)</option>
+													</select>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col">
+										<div class="card">
+											<h5 class="card-header">
+												<input type="checkbox" use="OBSInputEventEnable"> OBS
+											</h5>
+											<div class="card-body">
+												<div class="mb-3">
+													<label for="OBSInputEventAction" class="form-label">Event</label>
+													<select action="OBSInputEventAction" id="OBSInputEventAction" class="form-control">
+														<option default disabled selected>Event</option>
+													</select>
+												</div>
+												<div class="mb-3">
+													<label for="OBSInputEventData" class="form-label">Data</label>
+													<select action="OBSInputEventData" id="OBSInputEventData" class="form-control">
+														<option default disabled selected>Data</option>
+													</select>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="tab-pane" id="output" role="createEventTab" aria-labelledby="output-tab">
+								<div class="row">
+									<div class="col">
+										<div class="card">
+											<h5 class="card-header">
+												<input type="checkbox" use="MIDIOutputEventEnable" checked> MIDI
+											</h5>
+											<div class="card-body">
+												<div class="mb-3">
+													<label for="MIDIOutputEventNote" class="form-label">Note</label>
+													<input action="MIDIOutputEventNote" id="MIDIOutputEventNote" class="form-control" type="number" min="0" max="127" />
+												</div>
+												<div class="mb-3">
+													<label for="MIDIOutputEventVelocity" class="form-label">Velocity</label>
+													<input action="MIDIOutputEventVelocity" id="MIDIOutputEventVelocity" class="form-control" type="number" placeholder="Velocity" min="0" max="127" value="127" />
+												</div>
+												<div class="mb-3">
+													<label for="MIDIOutputEventChannel" class="form-label">Channel</label>
+													<input action="MIDIOutputEventChannel" id="MIDIOutputEventChannel" class="form-control" type="number" placeholder="Channel" min="0" max="15" value="0"/>
+												</div>
+												<div class="mb-3">
+													<label for="MIDIOutputControllers" class="form-label">Device</label>
+													<select action="MIDIOutputControllers" id="MIDIOutputControllers" class="form-control">
+														<option default disabled selected>-- Output Controller --</option>
+													</select>
+												</div>
+												<div class="mb-3">
+													<label for="MIDIOutputEventType" class="form-label">Type</label>
+													<select action="MIDIOutputEventType" id="MIDIOutputEventType" class="form-control">
+														<option value="noteon">Press (noteon)</option>
+														<option default selected value="noteoff">Release (noteoff)</option>
+													</select>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col">
+										<div class="card">
+											<h5 class="card-header">
+												<input type="checkbox" use="OBSOutputEventEnable" checked> OBS
+											</h5>
+											<div class="card-body">
+												<div class="mb-3">
+													<label for="OBSOutputEventAction" class="form-label">Event</label>
+													<select class="form-control" action="OBSOutputEventAction" id="OBSOutputEventAction">
+														<option default disabled selected>None</option>
+														<optgroup label="Scene">
+															<option value="SetCurrentScene">Switch to Scene</option>
+															<option value="SetPreviewScene">Preview Scene</option>
+															<option value="TransitionToProgram">Transition Preview to Main</option>
+														</optgroup>
+														<optgroup label="Source">
+															<option value="SetSourceVisibility=false">Hide Source</option>
+															<option value="SetSourceVisibility=true">Show Source</option>
+															<option value="SetSourceVisibility=toggle">Toggle Source</option>
+														</optgroup>
+														<optgroup label="Audio">
+															<option value="SetMute=true">Mute</optio>
+															<option value="SetMute=false">Un-mute</optio>
+															<option value="ToggleMute">Toggle Mute</optio>
+														</optgroup>
+														<optgroup label="Recording">
+															<option value="StartRecording">Start Recording</option>
+															<option value="StopRecording">Stop Recording</option>
+															<option value="PauseRecording">Pause Recording</option>
+															<option value="ResumeRecording">Resume Recording</option>
+														</optgroup>
+														<optgroup label="Streaming">
+															<option value="StartStreaming">Start Streaming</option>
+															<option value="StopStreaming">Stop Streaming</option>
+															<option value="PauseStreaming">Pause Streaming</option>
+															<option value="ResumeStreaming">Resume Streaming</option>
+														</optgroup>
+													</select>
+												</div>
+												<div class="mb-3">
+													<label for="OBSOutputEventObject" class="form-label">Object</label>
+													<select action="OBSOutputEventObject" id="OBSOutputEventObject" class="form-control">
+														<option default disabled selected>None</option>
+													</select>
+												</div>
+												<div class="mb-3">
+													
+													<label for="OBSOutputEventData" class="form-label">Data</label>
+													<select action="OBSOutputEventData" id="OBSOutputEventData" class="form-control">
+														<option default disabled selected>None</option>
+													</select>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary" action="AppendEvent">Create</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Settings Modal -->
+		<div class="modal fade shadow-sm" id="settingsModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="settingsModalLabel">Settings</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body container">
+						<ul class="nav nav-tabs" id="settingsModalTabButtons" role="settingsModalTab">
+							<li class="nav-item" role="presentation">
+								<button class="nav-link active" id="obs-tab" data-bs-toggle="tab" data-bs-target="#obs" type="button" role="tab" aria-controls="obs" aria-selected="true">OBS</button>
+							</li>
+							<li class="nav-item" role="presentation">
+								<button class="nav-link" id="config-tab" data-bs-toggle="tab" data-bs-target="#config" type="button" role="tab" aria-controls="config" aria-selected="true">Configuration</button>
+							</li>
+							<li class="nav-item ms-auto mb-2 mb-lg-0" role="presentation">
+								<button class="nav-link" id="about-tab" data-bs-toggle="tab" data-bs-target="#about" type="button" role="tab" aria-controls="about" aria-selected="true">About</button>
+							</li>
+						</ul>
+						<div class="tab-content container" id="settingsModalTab">
+							<div class="tab-pane show active" id="obs" role="settingsModalTab" aria-labelledby="obs-tab">
+								<div class="card">
+									<div class="card-body">
+										<h5 class="card-title">
+											Connection
+										</h5>
+										<div class="row-auto">
+											<div class="col">
+												<span>Websocket Address</span>
+											</div>
+											<div class="col-auto">
+												<input type="text" use="ManagementOBSAddress" placeholder="Default: 127.0.0.1:4444">
+											</div>
+										</div>
+										<div class="row-auto">
+											<div class="col-auto">
+												<span style="color: rgba(0,0,0,0);">.</span>
+											</div>
+										</div>
+										<div class="row-auto">
+											<div class="col">
+												<span>Password</span>
+											</div>
+											<div class="col-auto">
+												<input type="password" use="ManagementOBSPassword" placeholder="">
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="tab-pane" id="config" role="settingsModalTab" aria-labelledby="config-tab">
+								<div class="row">
+									<div class="col-auto">
+										<button class="btn btn-primary" action="export">Export</button>
+									</div>
+									<div class="col-auto">
+										<button class="btn btn-primary" action="import">Import</button>
+									</div>
+								</div>
+								<br>
+								<div class="row">
+									<div class="col">
+										<button class="btn btn-primary" onclick="require('electron').remote.getCurrentWindow().reload()">Refresh</button>
+									</div>
+								</div>
+							</div>
+							<div class="tab-pane text-center" id="about" role="settingsModalTab" aria-labelledby="about-tab">
+								<h4>MIDI Adapter</h4>
+								<p>Created by <a href="#" class="external-link" location="https://jyles.club">Jyles Coad-Ward</a></p>
+								<br>
+								<h5>Open Source Software Used</h5>
+								<div action="OSS_Credits">
+									<ul>
+
+									</ul>
+								</div>
+								<br>
+								<h5>Built With</h5>
+								<div action="OSS_Credits_Dev">
+									<ul></ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<div class="container">
 			<br>
-			<div class="container shadow-sm rounded">
-				<div class="row">
-					<h3>Management</h3>
-				</div>
-				<div class="row text-center">
-					<div class="col">
-						<button class="btn btn-primary" action="disconnect">Disconnect</button>
-					</div>
-					<div class="col">
-						<button class="btn btn-primary" action="connect">Connect</button>
-					</div>
-					<div class="col">
-						<button class="btn btn-primary" action="import">Import</button>
-					</div>
-					<div class="col">
-						<button class="btn btn-primary" action="export">Export</button>
-					</div>
-				</div>
-				<div class="row">
-					<div class="container">
-						<div class="row">
-							<h4>OBS</h4>
-						</div>
-						<div class="row">
-							<div class="col">
-								<span>Websocket Address</span>
-							</div>
-							<div class="col">
-								<input type="text" use="ManagementOBSAddress" placeholder="Default: 127.0.0.1:4444">
-							</div>
-						</div>
-						<div class="row">
-							<div class="col">
-								<span>Password</span>
-							</div>
-							<div class="col">
-								<input type="password" use="ManagementOBSPassword" placeholder="">
-							</div>
-						</div>
-						<div class="row">
-							<div class="col">
-								<div use="ManagementOBSStatus">
-									Status: <span use="ManagementOBSStatusConnection">Disconnected</span>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-	
-			<hr>
-
-			<div class="container shadow-sm rounded">
-				<h4>Create Event</h4>
-				<div class="row">
-					<div class="col-6">
-						<div class="card">
-							<h5 class="card-header">
-								<input type="checkbox" use="MIDIInputEventEnable" checked> Input - MIDI
-							</h5>
-							<div class="card-body">
-								<div class="mb-3">
-									<label for="MIDIInputEventNote" class="form-label">Note</label>
-									<input action="MIDIInputEventNote" id="MIDIInputEventNote" class="form-control" type="number" min="0" max="127" />
-								</div>
-								<div class="mb-3">
-									<label for="MIDIInputEventVelocity" class="form-label">Velocity</label>
-									<input action="MIDIInputEventVelocity" id="MIDIInputEventVelocity" class="form-control" type="number" placeholder="Velocity" min="0" max="127" value="127" />
-								</div>
-								<div class="mb-3">
-									<label for="MIDIInputEventChannel" class="form-label">Channel</label>
-									<input action="MIDIInputEventChannel" id="MIDIInputEventChannel" class="form-control" type="number" placeholder="Channel" min="0" max="15" value="0"/>
-								</div>
-								<div class="mb-3">
-									<label for="MIDIInputControllers" class="form-label">Device</label>
-									<select action="MIDIInputControllers" id="MIDIInputControllers" class="form-control">
-										<option default disabled selected>-- Input Controller --</option>
-									</select>
-								</div>
-								<div class="mb-3">
-									<label for="MIDIInputEventType" class="form-label">Type</label>
-									<select action="MIDIInputEventType" id="MIDIInputEventType" class="form-control">
-										<option value="noteon">Press (noteon)</option>
-										<option default selected value="noteoff">Release (noteoff)</option>
-									</select>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-6">
-						<div class="card">
-							<h5 class="card-header">
-								<input type="checkbox" use="OBSInputEventEnable"> Input - OBS
-							</h5>
-							<div class="card-body">
-								<div class="mb-3">
-									<label for="OBSInputEventAction" class="form-label">Event</label>
-									<select action="OBSInputEventAction" id="OBSInputEventAction" class="form-control">
-										<option default disabled selected>Event</option>
-									</select>
-								</div>
-								<div class="mb-3">
-									<label for="OBSInputEventData" class="form-label">Data</label>
-									<select action="OBSInputEventData" id="OBSInputEventData" class="form-control">
-										<option default disabled selected>Data</option>
-									</select>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="row-1"><div class="col"><span style="color: rgba(0,0,0,0);">.</span></div></div>
-				<div class="row">
-					<div class="col-6">
-						<div class="card">
-							<h5 class="card-header">
-								<input type="checkbox" use="MIDIOutputEventEnable" checked> Output - MIDI
-							</h5>
-							<div class="card-body">
-								<div class="mb-3">
-									<label for="MIDIOutputEventNote" class="form-label">Note</label>
-									<input action="MIDIOutputEventNote" id="MIDIOutputEventNote" class="form-control" type="number" min="0" max="127" />
-								</div>
-								<div class="mb-3">
-									<label for="MIDIOutputEventVelocity" class="form-label">Velocity</label>
-									<input action="MIDIOutputEventVelocity" id="MIDIOutputEventVelocity" class="form-control" type="number" placeholder="Velocity" min="0" max="127" value="127" />
-								</div>
-								<div class="mb-3">
-									<label for="MIDIOutputEventChannel" class="form-label">Channel</label>
-									<input action="MIDIOutputEventChannel" id="MIDIOutputEventChannel" class="form-control" type="number" placeholder="Channel" min="0" max="15" value="0"/>
-								</div>
-								<div class="mb-3">
-									<label for="MIDIOutputControllers" class="form-label">Device</label>
-									<select action="MIDIOutputControllers" id="MIDIOutputControllers" class="form-control">
-										<option default disabled selected>-- Output Controller --</option>
-									</select>
-								</div>
-								<div class="mb-3">
-									<label for="MIDIOutputEventType" class="form-label">Type</label>
-									<select action="MIDIOutputEventType" id="MIDIOutputEventType" class="form-control">
-										<option value="noteon">Press (noteon)</option>
-										<option default selected value="noteoff">Release (noteoff)</option>
-									</select>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-6">
-						<div class="card">
-							<h5 class="card-header">
-								<input type="checkbox" use="OBSOutputEventEnable" checked> Output - OBS
-							</h5>
-							<div class="card-body">
-								<div class="mb-3">
-									<label for="OBSOutputEventAction" class="form-label">Event</label>
-									<select class="form-control" action="OBSOutputEventAction" id="OBSOutputEventAction">
-										<option default disabled selected>None</option>
-										<optgroup label="Scene">
-											<option value="SetCurrentScene">Switch to Scene</option>
-											<option value="SetPreviewScene">Preview Scene</option>
-											<option value="TransitionToProgram">Transition Preview to Main</option>
-										</optgroup>
-										<optgroup label="Source">
-											<option value="SetSourceVisibility=false">Hide Source</option>
-											<option value="SetSourceVisibility=true">Show Source</option>
-											<option value="SetSourceVisibility=toggle">Toggle Source</option>
-										</optgroup>
-										<optgroup label="Audio">
-											<option value="SetMute=true">Mute</optio>
-											<option value="SetMute=false">Un-mute</optio>
-											<option value="ToggleMute">Toggle Mute</optio>
-										</optgroup>
-										<optgroup label="Recording">
-											<option value="StartRecording">Start Recording</option>
-											<option value="StopRecording">Stop Recording</option>
-											<option value="PauseRecording">Pause Recording</option>
-											<option value="ResumeRecording">Resume Recording</option>
-										</optgroup>
-										<optgroup label="Streaming">
-											<option value="StartStreaming">Start Streaming</option>
-											<option value="StopStreaming">Stop Streaming</option>
-											<option value="PauseStreaming">Pause Streaming</option>
-											<option value="ResumeStreaming">Resume Streaming</option>
-										</optgroup>
-									</select>
-								</div>
-								<div class="mb-3">
-									<label for="OBSOutputEventObject" class="form-label">Object</label>
-									<select action="OBSOutputEventObject" id="OBSOutputEventObject" class="form-control">
-										<option default disabled selected>None</option>
-									</select>
-								</div>
-								<div class="mb-3">
-									
-									<label for="OBSOutputEventData" class="form-label">Data</label>
-									<select action="OBSOutputEventData" id="OBSOutputEventData" class="form-control">
-										<option default disabled selected>None</option>
-									</select>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<br>
-			<br>
-			<div class="container shadow-sm rounded">
+			<div class="container shadow rounded-3" id="event_list">
 				<h4>Events</h4>
 				<table class="table" use="GlobalEventList">
 					<thead>
@@ -254,12 +324,54 @@
 					</table>
 				</fieldset>
 			</fieldset>
-			<button type="button" class="collapsible" action="CollapseVisualizer">Debugger</button>
-			<div class="VisualController content">
+			<button type="button" class="collapsible" action="CollapseVisualizer" id="debug">Debugger</button>
+			<div class="VisualController collapsible content">
 	
 			</div>
 
 		</div>
+		<br>
+		<br>
+		<br>
+		<br>
+		<nav class="main-navbar navbar navbar-expand-lg navbar-light bg-light border-top">
+			<div class="container-fluid">
+				<div class="collapse navbar-collapse" id="navbarNav">
+					<ul class="navbar-nav mr-auto">
+						<li class="nav-item">
+							<a class="nav-link" href="#">
+								<button class="btn btn-primary" action="disconnect">Disconnect</button>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#">
+								<button class="btn btn-primary" action="connect">Connect</button>
+							</a>
+						</li>
+					</ul>
+					<span class="navbar-text navbar-brand" use="ManagementOBSStatusConnection">
+						<span use="ManagementOBSStatusConnection">Disconnected</span>
+					</span>
+					<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+						<li class="nav-item">
+							<a class="nav-link" href="#">
+								<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createEventModal">
+									Create Event
+								</button>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#">
+								<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#settingsModal">
+									Settings
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
 		<script type="text/javascript">require("./index.js")();</script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 	</body>
 </html>
