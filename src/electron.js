@@ -15,17 +15,17 @@ function isStandalone() {
 let mainWindow;
 const createWindow = () => {
 	mainWindow = new BrowserWindow({
-		width: 780,
-		height: 960,
+		minWidth: 1280,
+		minHeight: 900,
 		allowRendererProcessReuse: false,
 		webPreferences: {
 			nodeIntegration: true,
 			enableRemoteModule: true,
-			v8CacheOptions: 'none',
 			kiosk: true,
 			allowRendererProcessReuse: false,
 		},
 	});
+	mainWindow.setMenu(null);
 	mainWindow.loadURL(`file://${__dirname}/index.html`);
 	if (!isStandalone()) {
 		mainWindow.webContents.openDevTools();
