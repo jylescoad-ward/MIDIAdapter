@@ -4,7 +4,7 @@
     "version": "0.0.5",
     "description": "MIDI Adapter, Designed for osu!lazer",
     "main": "src/electron.js",
-    "author": "Jyles Coad-Ward <jyles@dariox.club> (https://jyles.club)",
+    "author": "Kate Ward <kate@dariox.club>",
     "scripts": {
         "start": "electron-forge start",
         "package": "electron-forge package",
@@ -47,7 +47,7 @@
         "jquery": "^3.5.1",
         "midi": "^1.0.3",
         "obs-websocket-js": "^4.0.2",
-        "tinytoolbox": "0.0.5"
+        "tinytoolbox": "^0.0.11"
     },
     "devDependencies": {
         "@electron-forge/cli": "^6.0.0-beta.54",
