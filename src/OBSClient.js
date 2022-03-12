@@ -352,7 +352,7 @@ class OBSEvent {
 		this.OBS.connect(this.Credentials).then(() =>{
 			$(".loadingoverlay").attr("action","hide");
 		}).catch((error)=>{
-			alert(error.description +"\nTry checking if OBS is open.");
+			alert((error.description == undefined ? "" : error.description+"\n")+ "Try checking if OBS is open.");
 			$(".loadingoverlay").attr("action","hide");
 		})
 	}
