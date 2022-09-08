@@ -14,10 +14,10 @@
         "pack": "npm run pack:main && npm run pack:renderer",
         "pack:main": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.main.config.js",
         "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.renderer.config.js",
-        "postinstall": ""
+        "postinstall": "electron-builder install-app-deps"
     },
     "build": {
-        "productName": "midiadapter",
+        "productName": "MIDI Adapter",
         "appId": "pet.kate.midiadapter",
         "directories": {
             "output": "build"
@@ -44,10 +44,30 @@
             "icon": "build/icons/icon.icns"
         },
         "win": {
-            "icon": "build/icons/icon.ico"
+            "icon": "build/icons/icon.ico",
+            "target": [
+                {
+                    "target": "dir",
+                    "arch": ["x64"]
+                },
+                {
+                    "target": "msi",
+                    "arch": ["x64"]
+                }
+            ]
         },
         "linux": {
-            "icon": "build/icons"
+            "icon": "build/icons",
+            "target": [
+                {
+                    "target": "AppImage",
+                    "arch": [ "x64" ]
+                },
+                {
+                    "target": "dir",
+                    "arch": [ "x64" ]
+                }
+            ]
         }
     },
     "dependencies": {
