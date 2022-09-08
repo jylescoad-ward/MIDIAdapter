@@ -56,6 +56,7 @@ export default class MIDIManager extends EventEmitter
                     if (this.Devices.output[deviceName] == undefined)
                     {
                         this.Devices.output[deviceName] = new easymidi.Output(deviceName)
+                        this.InitializeOutputDevice(deviceName)
                         returnValue.output = 'Device:Created'
                     }
                     else
@@ -75,6 +76,7 @@ export default class MIDIManager extends EventEmitter
                     if (this.Devices.input[deviceName] == undefined)
                     {
                         this.Devices.input[deviceName] = new easymidi.Input(deviceName)
+                        this.InitializeInputDevice(deviceName)
                         returnValue.input = 'Device:Created'
                     }
                     else
@@ -113,6 +115,68 @@ export default class MIDIManager extends EventEmitter
         return {
             input: easymidi.getInputs(),
             output: easymidi.getOutputs()
+        }
+    }
+
+    public InitializeInputDevice(deviceName: string): void
+    {
+        if (this.Devices.input[deviceName] == undefined) return
+        let dev: any = this.Devices.input[deviceName]
+        let eventChannels = [
+            'noteon',
+            'noteoff',
+            'poly aftertouch',
+            'cc',
+            'program',
+            'channel aftertouch',
+            'pitch',
+            'position',
+            'mtc',
+            'select',
+            'clock',
+            'start',
+            'continue',
+            'stop',
+            'activatesense',
+            'reset',
+            'sysex'
+        ]
+        for (let channel of eventChannels)
+        {
+            dev.on(channel, (...args: any[]) => {
+                this.emit(`device:input=${channel}`, ...args)
+            })
+        }
+    }
+    public InitializeOutputDevice(deviceName: string): void
+    {
+        if (this.Devices.output[deviceName] == undefined) return
+        let dev: any = this.Devices.output[deviceName]
+        let eventChannels = [
+            'noteon',
+            'noteoff',
+            'poly aftertouch',
+            'cc',
+            'program',
+            'channel aftertouch',
+            'pitch',
+            'position',
+            'mtc',
+            'select',
+            'clock',
+            'start',
+            'continue',
+            'stop',
+            'activatesense',
+            'reset'
+        ]
+        for (let channel of eventChannels)
+        {
+            this.on(`device:output=${channel}`, (deviceName: string, param: any) =>
+            {
+                if (dev.isPortOpen())
+                    dev.send(channel, param)
+            })
         }
     }
 
