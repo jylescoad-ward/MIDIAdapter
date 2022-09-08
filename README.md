@@ -1,29 +1,22 @@
-# MIDIAdapter
-Softare made to sit inbetween OBS and a MIDI device for automation.
+# midiadapter
 
-## Tested Devices
-- Novation
-  - Launchpad MK2
+> An electron-vue project
 
-Technically it can work with any MIDI device but we cannot ensure that it will work, if anything goes wrong the developers are not at fault since (we assume) you are using a unsupported/untested device.
+#### Build Setup
 
-## Building
-Install Dependencies
-```
-$ npm install
-```
+``` bash
+# install dependencies
+npm install
 
-Run from code
-```
-$ npm start
-```
+# serve with hot reload at localhost:9080
+npm run dev
 
-Create Portable Executable
-```
-$ npm make
+# build electron application for production
+npm run build
+
+
 ```
 
-Build Installer
-```
-$ npm run build-installer
-```
+---
+
+This project was generated with [electron-vue](https://github.com/SimulatedGREG/electron-vue) using [vue-cli](https://github.com/vuejs/vue-cli). Documentation about the original structure can be found [here](https://simulatedgreg.gitbooks.io/electron-vue/content/index.html).
