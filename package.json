@@ -2,7 +2,7 @@
     "name": "midi-adapter",
     "productName": "MIDI Adapter",
     "version": "0.0.6",
-    "description": "MIDI Adapter, Designed for osu!lazer",
+    "description": "Convert your MIDI Devices into a macropad for OBS",
     "main": "src/electron.js",
     "author": "Kate Ward <kate@dariox.club>",
     "scripts": {
