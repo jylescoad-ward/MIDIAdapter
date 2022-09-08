@@ -48,11 +48,15 @@
             "target": [
                 {
                     "target": "dir",
-                    "arch": ["x64"]
+                    "arch": [
+                        "x64"
+                    ]
                 },
                 {
                     "target": "msi",
-                    "arch": ["x64"]
+                    "arch": [
+                        "x64"
+                    ]
                 }
             ]
         },
@@ -61,16 +65,21 @@
             "target": [
                 {
                     "target": "AppImage",
-                    "arch": [ "x64" ]
+                    "arch": [
+                        "x64"
+                    ]
                 },
                 {
                     "target": "dir",
-                    "arch": [ "x64" ]
+                    "arch": [
+                        "x64"
+                    ]
                 }
             ]
         }
     },
     "dependencies": {
+        "easymidi": "^2.1.0",
         "vue": "^2.5.16",
         "vue-electron": "^1.0.6",
         "vue-router": "^3.0.1",
