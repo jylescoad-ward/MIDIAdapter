@@ -1,5 +1,5 @@
 # MIDIAdapter
-Softare made to sit inbetween OBS and a MIDI device for automation.
+Software made to sit in-between OBS and a MIDI device for automation.
 
 ## Tested Devices
 - Novation
