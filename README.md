@@ -12,6 +12,7 @@ Requirements
 - Node.js (v16.x)
 - npm (v8.x and later)
 - x86/x86_64 Processor
+- [node-gyp](https://github.com/nodejs/node-gyp#readme) installed
 
 ```bash
 $ npm install
